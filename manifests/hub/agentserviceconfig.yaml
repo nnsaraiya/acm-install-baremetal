@@ -1,0 +1,28 @@
+# storageClassName follows LVM Storage's naming convention: lvms-<deviceClass>.
+# Our LVMCluster (manifests/hub/lvmcluster.yaml) uses deviceClass "vg1".
+apiVersion: agent-install.openshift.io/v1beta1
+kind: AgentServiceConfig
+metadata:
+  name: agent
+spec:
+  databaseStorage:
+    storageClassName: lvms-vg1
+    accessModes:
+      - ReadWriteOnce
+    resources:
+      requests:
+        storage: 10Gi
+  filesystemStorage:
+    storageClassName: lvms-vg1
+    accessModes:
+      - ReadWriteOnce
+    resources:
+      requests:
+        storage: 20Gi
+  imageStorage:
+    storageClassName: lvms-vg1
+    accessModes:
+      - ReadWriteOnce
+    resources:
+      requests:
+        storage: 10Gi

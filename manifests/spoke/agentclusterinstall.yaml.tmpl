@@ -1,0 +1,21 @@
+apiVersion: extensions.hive.openshift.io/v1beta1
+kind: AgentClusterInstall
+metadata:
+  name: ${SPOKE_CLUSTER_NAME}-install
+  namespace: ${SPOKE_NAMESPACE}
+spec:
+  clusterDeploymentRef:
+    name: ${SPOKE_CLUSTER_NAME}
+  imageSetRef:
+    name: ${SPOKE_CLUSTER_NAME}-${OCP_VERSION}
+  networking:
+    clusterNetwork:
+      - cidr: 10.128.0.0/14
+        hostPrefix: 23
+    serviceNetwork:
+      - 172.30.0.0/16
+    machineNetwork:
+      - cidr: ${NETWORK_CIDR}
+  provisionRequirements:
+    controlPlaneAgents: 1
+  sshPublicKey: ${SSH_KEY}

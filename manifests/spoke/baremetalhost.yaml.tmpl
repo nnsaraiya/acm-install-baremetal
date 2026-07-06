@@ -1,0 +1,22 @@
+# bmc.address uses the "+http" scheme suffix because sushy-tools runs
+# without TLS here (see scripts/10-setup-sushy-redfish.sh). Ironic's redfish
+# driver defaults to https unless told otherwise.
+apiVersion: metal3.io/v1alpha1
+kind: BareMetalHost
+metadata:
+  name: ${SPOKE_HOSTNAME}
+  namespace: ${SPOKE_NAMESPACE}
+  labels:
+    infraenvs.agent-install.openshift.io: ${SPOKE_CLUSTER_NAME}
+  annotations:
+    inspect.metal3.io: disabled
+    bmac.agent-install.openshift.io/hostname: ${SPOKE_HOSTNAME}
+spec:
+  online: true
+  bootMode: legacy
+  bootMACAddress: ${SPOKE_MAC}
+  automatedCleaningMode: disabled
+  bmc:
+    address: redfish-virtualmedia+http://${SUSHY_HOST}:${SUSHY_PORT}/redfish/v1/Systems/${SPOKE_VM_UUID}
+    credentialsName: ${SPOKE_HOSTNAME}-bmc-secret
+    disableCertificateVerification: true

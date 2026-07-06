@@ -1,0 +1,14 @@
+# Verify this channel is still current and compatible with OCP_VERSION
+# (config/env.sh) against Red Hat's ACM support matrix before installing:
+# https://access.redhat.com/articles/7057925
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: advanced-cluster-management
+  namespace: open-cluster-management
+spec:
+  channel: release-2.11
+  name: advanced-cluster-management
+  source: redhat-operators
+  sourceNamespace: openshift-marketplace
+  installPlanApproval: Automatic

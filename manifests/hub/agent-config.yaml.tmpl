@@ -1,0 +1,36 @@
+apiVersion: v1alpha1
+kind: AgentConfig
+metadata:
+  name: ${HUB_CLUSTER_NAME}
+rendezvousIP: ${HUB_IP}
+hosts:
+  - hostname: ${HUB_HOSTNAME}
+    role: master
+    # Pin the install to the OS disk (vda) so the second disk (vdb) stays
+    # untouched for LVM Storage to consume later.
+    rootDeviceHints:
+      deviceName: /dev/vda
+    interfaces:
+      - name: ${HUB_NIC_NAME}
+        macAddress: ${HUB_MAC}
+    networkConfig:
+      interfaces:
+        - name: ${HUB_NIC_NAME}
+          type: ethernet
+          state: up
+          mac-address: ${HUB_MAC}
+          ipv4:
+            enabled: true
+            dhcp: false
+            address:
+              - ip: ${HUB_IP}
+                prefix-length: ${NETWORK_PREFIX}
+      dns-resolver:
+        config:
+          server:
+            - ${NETWORK_DNS}
+      routes:
+        config:
+          - destination: 0.0.0.0/0
+            next-hop-address: ${NETWORK_GATEWAY}
+            next-hop-interface: ${HUB_NIC_NAME}

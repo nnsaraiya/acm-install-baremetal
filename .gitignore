@@ -1,0 +1,8 @@
+config/env.sh
+*.iso
+*.qcow2
+kubeconfig*
+work/
+.auth/
+**/pull-secret.json
+**/openshift_install.log

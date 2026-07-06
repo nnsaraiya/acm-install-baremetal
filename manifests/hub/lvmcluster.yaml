@@ -1,0 +1,19 @@
+apiVersion: lvm.topolvm.io/v1alpha1
+kind: LVMCluster
+metadata:
+  name: lvmcluster
+  namespace: openshift-storage
+spec:
+  storage:
+    deviceClasses:
+      - name: vg1
+        default: true
+        # /dev/vdb is the second hub disk (HUB_DATA_DISK_GB) — never the OS
+        # disk, which the agent installer pinned to /dev/vda via rootDeviceHints.
+        deviceSelector:
+          paths:
+            - /dev/vdb
+        thinPoolConfig:
+          name: thin-pool-1
+          sizePercent: 90
+          overprovisionRatio: 10

@@ -1,0 +1,6 @@
+apiVersion: hive.openshift.io/v1
+kind: ClusterImageSet
+metadata:
+  name: ${SPOKE_CLUSTER_NAME}-${OCP_VERSION}
+spec:
+  releaseImage: ${OCP_RELEASE_IMAGE}

@@ -1,0 +1,34 @@
+<network xmlns:dnsmasq='http://libvirt.org/schemas/network/dnsmasq/1.0'>
+  <name>${LIBVIRT_NETWORK_NAME}</name>
+  <forward mode='nat'/>
+  <bridge name='acmbmbr0' stp='on' delay='0'/>
+  <domain name='${BASE_DOMAIN}' localOnly='yes'/>
+  <dns>
+    <host ip='${HUB_IP}'>
+      <hostname>api.${HUB_CLUSTER_NAME}.${BASE_DOMAIN}</hostname>
+      <hostname>api-int.${HUB_CLUSTER_NAME}.${BASE_DOMAIN}</hostname>
+      <hostname>${HUB_HOSTNAME}.${BASE_DOMAIN}</hostname>
+    </host>
+    <host ip='${SPOKE_IP}'>
+      <hostname>api.${SPOKE_CLUSTER_NAME}.${BASE_DOMAIN}</hostname>
+      <hostname>api-int.${SPOKE_CLUSTER_NAME}.${BASE_DOMAIN}</hostname>
+      <hostname>${SPOKE_HOSTNAME}.${BASE_DOMAIN}</hostname>
+    </host>
+  </dns>
+  <ip address='${NETWORK_GATEWAY}' prefix='${NETWORK_PREFIX}'>
+    <dhcp>
+      <range start='${DHCP_RANGE_START}' end='${DHCP_RANGE_END}'/>
+      <host mac='${HUB_MAC}' ip='${HUB_IP}'/>
+      <host mac='${SPOKE_MAC}' ip='${SPOKE_IP}'/>
+    </dhcp>
+  </ip>
+  <!--
+    Wildcard *.apps DNS for both clusters. Libvirt's <dns><host> entries only
+    do exact-match hostnames, so the wildcard needs a raw dnsmasq option
+    injected via this extension namespace.
+  -->
+  <dnsmasq:options>
+    <dnsmasq:option value='address=/apps.${HUB_CLUSTER_NAME}.${BASE_DOMAIN}/${HUB_IP}'/>
+    <dnsmasq:option value='address=/apps.${SPOKE_CLUSTER_NAME}.${BASE_DOMAIN}/${SPOKE_IP}'/>
+  </dnsmasq:options>
+</network>
