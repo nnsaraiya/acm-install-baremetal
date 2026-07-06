@@ -1,13 +1,13 @@
 apiVersion: extensions.hive.openshift.io/v1beta1
 kind: AgentClusterInstall
 metadata:
-  name: ${SPOKE_CLUSTER_NAME}-install
-  namespace: ${SPOKE_NAMESPACE}
+  name: spoke-install
+  namespace: spoke
 spec:
   clusterDeploymentRef:
-    name: ${SPOKE_CLUSTER_NAME}
+    name: spoke
   imageSetRef:
-    name: ${SPOKE_CLUSTER_NAME}-${OCP_VERSION}
+    name: spoke-4.16.15
   networking:
     clusterNetwork:
       - cidr: 10.128.0.0/14
@@ -15,7 +15,8 @@ spec:
     serviceNetwork:
       - 172.30.0.0/16
     machineNetwork:
-      - cidr: ${NETWORK_CIDR}
+      - cidr: 192.168.130.0/24
   provisionRequirements:
     controlPlaneAgents: 1
-  sshPublicKey: ${SSH_KEY}
+  # Generate with: cat ~/.ssh/id_rsa.pub
+  sshPublicKey: REPLACE_SSH_PUBLIC_KEY

@@ -69,5 +69,6 @@ an Agent, kick off the install.
 CRD field names for `AgentServiceConfig`, `Provisioning`, and the
 `MultiClusterEngine` component-enable patch are version-sensitive across ACM/
 MCE releases. Cross-check `manifests/hub/acm-subscription.yaml`'s channel
-against `config/env.sh`'s `OCP_VERSION` before running, using Red Hat's
-support matrix (https://access.redhat.com/articles/7057925).
+against `manifests/spoke/clusterimageset.yaml`'s OpenShift release before
+running, using Red Hat's support matrix
+(https://access.redhat.com/articles/7057925).

@@ -1,0 +1,34 @@
+<network xmlns:dnsmasq='http://libvirt.org/schemas/network/dnsmasq/1.0'>
+  <name>acm-baremetal</name>
+  <forward mode='nat'/>
+  <bridge name='acmbmbr0' stp='on' delay='0'/>
+  <domain name='baremetal.local' localOnly='yes'/>
+  <dns>
+    <host ip='192.168.130.10'>
+      <hostname>api.hub.baremetal.local</hostname>
+      <hostname>api-int.hub.baremetal.local</hostname>
+      <hostname>hub.baremetal.local</hostname>
+    </host>
+    <host ip='192.168.130.20'>
+      <hostname>api.spoke.baremetal.local</hostname>
+      <hostname>api-int.spoke.baremetal.local</hostname>
+      <hostname>spoke.baremetal.local</hostname>
+    </host>
+  </dns>
+  <ip address='192.168.130.1' prefix='24'>
+    <dhcp>
+      <range start='192.168.130.100' end='192.168.130.200'/>
+      <host mac='52:54:00:aa:bb:01' ip='192.168.130.10'/>
+      <host mac='52:54:00:aa:bb:02' ip='192.168.130.20'/>
+    </dhcp>
+  </ip>
+  <!--
+    Wildcard *.apps DNS for both clusters. Libvirt's <dns><host> entries only
+    do exact-match hostnames, so the wildcard needs a raw dnsmasq option
+    injected via this extension namespace.
+  -->
+  <dnsmasq:options>
+    <dnsmasq:option value='address=/apps.hub.baremetal.local/192.168.130.10'/>
+    <dnsmasq:option value='address=/apps.spoke.baremetal.local/192.168.130.20'/>
+  </dnsmasq:options>
+</network>

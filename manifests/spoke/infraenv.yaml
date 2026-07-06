@@ -1,0 +1,16 @@
+apiVersion: agent-install.openshift.io/v1beta1
+kind: InfraEnv
+metadata:
+  name: spoke
+  namespace: spoke
+spec:
+  clusterRef:
+    name: spoke
+    namespace: spoke
+  pullSecretRef:
+    name: pull-secret
+  # Generate with: cat ~/.ssh/id_rsa.pub
+  sshAuthorizedKey: REPLACE_SSH_PUBLIC_KEY
+  agentLabelSelector:
+    matchLabels:
+      cluster: spoke

@@ -1,36 +1,36 @@
 apiVersion: v1alpha1
 kind: AgentConfig
 metadata:
-  name: ${HUB_CLUSTER_NAME}
-rendezvousIP: ${HUB_IP}
+  name: hub
+rendezvousIP: 192.168.130.10
 hosts:
-  - hostname: ${HUB_HOSTNAME}
+  - hostname: hub
     role: master
     # Pin the install to the OS disk (vda) so the second disk (vdb) stays
     # untouched for LVM Storage to consume later.
     rootDeviceHints:
       deviceName: /dev/vda
     interfaces:
-      - name: ${HUB_NIC_NAME}
-        macAddress: ${HUB_MAC}
+      - name: enp1s0
+        macAddress: "52:54:00:aa:bb:01"
     networkConfig:
       interfaces:
-        - name: ${HUB_NIC_NAME}
+        - name: enp1s0
           type: ethernet
           state: up
-          mac-address: ${HUB_MAC}
+          mac-address: "52:54:00:aa:bb:01"
           ipv4:
             enabled: true
             dhcp: false
             address:
-              - ip: ${HUB_IP}
-                prefix-length: ${NETWORK_PREFIX}
+              - ip: 192.168.130.10
+                prefix-length: 24
       dns-resolver:
         config:
           server:
-            - ${NETWORK_DNS}
+            - 192.168.130.1
       routes:
         config:
           - destination: 0.0.0.0/0
-            next-hop-address: ${NETWORK_GATEWAY}
-            next-hop-interface: ${HUB_NIC_NAME}
+            next-hop-address: 192.168.130.1
+            next-hop-interface: enp1s0

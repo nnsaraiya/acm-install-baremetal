@@ -20,6 +20,6 @@ Notes:
 - The hub's second disk (60G, `/dev/vdb`) exists solely so LVM Storage has a
   device to consume without touching the OS disk — see
   `manifests/hub/lvmcluster.yaml`.
-- All sizes are adjustable in `config/env.sh` (`HUB_VCPUS`, `HUB_RAM_MB`,
-  `HUB_OS_DISK_GB`, `HUB_DATA_DISK_GB`, `SPOKE_VCPUS`, `SPOKE_RAM_MB`,
-  `SPOKE_DISK_GB`).
+- All sizes are just flags on the `virt-install` commands in `RUNBOOK.md`
+  (steps 5 and 10, `--vcpus`/`--memory`/`--disk`) — edit them there if you
+  want different values.

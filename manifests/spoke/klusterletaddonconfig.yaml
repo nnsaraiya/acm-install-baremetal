@@ -1,11 +1,11 @@
 apiVersion: agent.open-cluster-management.io/v1
 kind: KlusterletAddonConfig
 metadata:
-  name: ${SPOKE_CLUSTER_NAME}
-  namespace: ${SPOKE_CLUSTER_NAME}
+  name: spoke
+  namespace: spoke
 spec:
-  clusterName: ${SPOKE_CLUSTER_NAME}
-  clusterNamespace: ${SPOKE_CLUSTER_NAME}
+  clusterName: spoke
+  clusterNamespace: spoke
   applicationManager:
     enabled: true
   certPolicyController:

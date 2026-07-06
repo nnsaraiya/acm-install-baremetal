@@ -1,0 +1,26 @@
+# bmc.address uses the "+http" scheme suffix because sushy-tools runs
+# without TLS (see the runbook's sushy-tools step). Ironic's redfish driver
+# defaults to https unless told otherwise.
+#
+# REPLACE_SPOKE_VM_UUID: generate with `virsh domuuid spoke` after creating
+# the spoke VM shell — libvirt assigns this UUID, it can't be known ahead of
+# time.
+apiVersion: metal3.io/v1alpha1
+kind: BareMetalHost
+metadata:
+  name: spoke
+  namespace: spoke
+  labels:
+    infraenvs.agent-install.openshift.io: spoke
+  annotations:
+    inspect.metal3.io: disabled
+    bmac.agent-install.openshift.io/hostname: spoke
+spec:
+  online: true
+  bootMode: legacy
+  bootMACAddress: "52:54:00:aa:bb:02"
+  automatedCleaningMode: disabled
+  bmc:
+    address: redfish-virtualmedia+http://192.168.130.1:8000/redfish/v1/Systems/REPLACE_SPOKE_VM_UUID
+    credentialsName: spoke-bmc-secret
+    disableCertificateVerification: true

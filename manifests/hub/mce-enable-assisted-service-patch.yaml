@@ -1,0 +1,11 @@
+# Applied with:
+#   oc patch multiclusterengine multiclusterengine --type=merge \
+#     --patch-file=manifests/hub/mce-enable-assisted-service-patch.yaml
+#
+# Not an `oc apply -f` object on its own (MultiClusterEngine is created by
+# the MultiClusterHub operator) — this is a merge patch applied on top of it.
+spec:
+  overrides:
+    components:
+      - name: assisted-service
+        enabled: true

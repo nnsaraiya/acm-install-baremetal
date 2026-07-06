@@ -1,23 +1,23 @@
 apiVersion: hive.openshift.io/v1
 kind: ClusterDeployment
 metadata:
-  name: ${SPOKE_CLUSTER_NAME}
-  namespace: ${SPOKE_NAMESPACE}
+  name: spoke
+  namespace: spoke
 spec:
-  baseDomain: ${BASE_DOMAIN}
-  clusterName: ${SPOKE_CLUSTER_NAME}
+  baseDomain: baremetal.local
+  clusterName: spoke
   controlPlaneConfig:
     servingCertificates: {}
   installed: false
   clusterInstallRef:
     group: extensions.hive.openshift.io
     kind: AgentClusterInstall
-    name: ${SPOKE_CLUSTER_NAME}-install
+    name: spoke-install
     version: v1beta1
   platform:
     agentBareMetal:
       agentSelector:
         matchLabels:
-          cluster: ${SPOKE_CLUSTER_NAME}
+          cluster: spoke
   pullSecretRef:
     name: pull-secret

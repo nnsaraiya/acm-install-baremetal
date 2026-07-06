@@ -1,0 +1,6 @@
+apiVersion: hive.openshift.io/v1
+kind: ClusterImageSet
+metadata:
+  name: spoke-4.16.15
+spec:
+  releaseImage: quay.io/openshift-release-dev/ocp-release:4.16.15-x86_64

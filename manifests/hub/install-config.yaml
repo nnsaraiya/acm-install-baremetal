@@ -1,7 +1,7 @@
 apiVersion: v1
-baseDomain: ${BASE_DOMAIN}
+baseDomain: baremetal.local
 metadata:
-  name: ${HUB_CLUSTER_NAME}
+  name: hub
 compute:
 - name: worker
   replicas: 0
@@ -16,8 +16,10 @@ networking:
   serviceNetwork:
   - 172.30.0.0/16
   machineNetwork:
-  - cidr: ${NETWORK_CIDR}
+  - cidr: 192.168.130.0/24
 platform:
   none: {}
-pullSecret: '${PULL_SECRET_JSON}'
-sshKey: '${SSH_KEY}'
+# Generate with: jq -c . ~/.openshift/pull-secret.json
+pullSecret: 'REPLACE_PULL_SECRET_JSON'
+# Generate with: cat ~/.ssh/id_rsa.pub
+sshKey: 'REPLACE_SSH_PUBLIC_KEY'

@@ -1,4 +1,3 @@
-config/env.sh
 *.iso
 *.qcow2
 kubeconfig*
